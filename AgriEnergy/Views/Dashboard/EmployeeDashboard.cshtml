@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Employee Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 2rem;
+    }
+
+    .dashboard-container {
+        background: white;
+        padding: 2rem;
+        max-width: 1000px;
+        margin: auto;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .section {
+        margin-top: 2rem;
+    }
+
+        .section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            .section ul li {
+                background: #f9f9f9;
+                padding: 0.75rem 1rem;
+                margin-bottom: 0.5rem;
+                border-left: 4px solid #007acc;
+            }
+
+                .section ul li a {
+                    color: #007acc;
+                    text-decoration: none;
+                }
+
+                    .section ul li a:hover {
+                        text-decoration: underline;
+                    }
+</style>
+
+<div class="dashboard-container">
+    <h1>Employee Dashboard</h1>
+
+    <div class="section">
+        <h2>Quick Access</h2>
+        <ul>
+            <li><a href="#">📈 View Reports</a></li>
+            <li><a href="#">👥 Manage Users</a></li>
+            <li><a href="#">📦 Inventory Overview</a></li>
+            <li><a href="#">🌾 Farm Summary</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Helpful Resources</h2>
+        <ul>
+            <li><a href="https://quickref.me/cs" target="_blank">C# Quick Reference</a></li>
+            <li><a href="https://docs.microsoft.com/en-us/aspnet/core/" target="_blank">ASP.NET Core Docs</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/ef/" target="_blank">Entity Framework Core Docs</a></li>
+        </ul>
+        <a class="btn btn-primary" asp-controller="Farmers" asp-action="Create">Add Farmer</a> // this must go to the employee dashboard 
+    </div>
+</div>
