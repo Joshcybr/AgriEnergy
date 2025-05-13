@@ -37,7 +37,7 @@ public class ProductController : Controller
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
+   
         public async Task<IActionResult> Create([Bind("Name,Price,Description")] Product product)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,8 +46,6 @@ public class ProductController : Controller
                 _logger.LogWarning("User is not authenticated.");
                 return BadRequest("User is not authenticated.");
             }
-
-            _logger.LogInformation($"UserId found: {userId}");
 
             // Set FarmerId manually
             product.FarmerId = userId;
@@ -61,17 +59,12 @@ public class ProductController : Controller
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
                 _logger.LogInformation("Product saved successfully.");
-                return RedirectToAction("FarmerDashboard", "Dashboards");
+                return RedirectToAction("FarmerDashboard", "Dashboards"); // Redirect to the FarmerDashboard
             }
 
-            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            {
-                _logger.LogError("Model validation error: " + error.ErrorMessage);
-            }
-
+            // If validation fails, return to the create page
             return View(product);
         }
-
 
 
         // GET: Product/Index

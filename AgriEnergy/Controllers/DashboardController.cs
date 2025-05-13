@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AgriEnergy.Models;
 using AgriEnergy.Data;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgriEnergy.Controllers
 {
@@ -23,10 +24,21 @@ namespace AgriEnergy.Controllers
         public async Task<IActionResult> FarmerDashboard()
         {
             var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.FullName ?? user?.UserName;
+            if (user == null)
+            {
+                return Unauthorized();
+            }
 
-            return View();
+            ViewBag.UserName = user.FullName ?? user.UserName;
+
+            // Get the products created by this farmer
+            var products = await _context.Products
+                                         .Where(p => p.FarmerId == user.Id)
+                                         .ToListAsync();
+
+            return View(products);  // Pass the products to the view
         }
+
 
         // Only users in the EMPLOYEE role can access this dashboard
         [Authorize(Roles = "EMPLOYEE")]
