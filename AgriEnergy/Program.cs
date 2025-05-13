@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register DbContext for ApplicationDbContext
+// Register DbContext for ApplicationDbContext with SQLite connection string
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite("Data Source=agri.db"));  // SQLite connection string
 
 // Register Identity for ApplicationUser and IdentityRole
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -25,7 +25,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    await SeedRolesAsync(scope.ServiceProvider);  // Corrected method name
+    await SeedRolesAsync(scope.ServiceProvider);  // Seed roles function
 }
 
 // Middleware
@@ -67,3 +67,4 @@ static async Task SeedRolesAsync(IServiceProvider serviceProvider)
         }
     }
 }
+

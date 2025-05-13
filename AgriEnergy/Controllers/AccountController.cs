@@ -43,7 +43,7 @@ namespace AgriEnergy.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, model.Role);
+                    await _userManager.AddToRoleAsync(user, model.Role.ToUpper());
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     ViewBag.SuccessMessage = "Registration successful!";
                     return View();
@@ -82,13 +82,13 @@ namespace AgriEnergy.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Email);
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    if (roles.Contains("Farmer"))
+                    if (roles.Contains("FARMER"))
                         return RedirectToAction("FarmerDashboard", "Dashboard");
 
-                    if (roles.Contains("Manager"))
-                        return RedirectToAction("ManagerDashboard", "Dashboard");
+                    if (roles.Contains("EMPLOYEE"))
+                        return RedirectToAction("EmployeeDashboard", "Dashboard");
 
-                    return RedirectToAction("Index", "Home"); // fallback
+                    return RedirectToAction("Index", "Home"); 
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

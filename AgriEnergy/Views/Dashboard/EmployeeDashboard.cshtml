@@ -1,61 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Employee Dashboard";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+  
 }
-
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 2rem;
-    }
-
-    .dashboard-container {
-        background: white;
-        padding: 2rem;
-        max-width: 1000px;
-        margin: auto;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-    }
-
-    .section {
-        margin-top: 2rem;
-    }
-
-        .section h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-
-        .section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-            .section ul li {
-                background: #f9f9f9;
-                padding: 0.75rem 1rem;
-                margin-bottom: 0.5rem;
-                border-left: 4px solid #007acc;
-            }
-
-                .section ul li a {
-                    color: #007acc;
-                    text-decoration: none;
-                }
-
-                    .section ul li a:hover {
-                        text-decoration: underline;
-                    }
-</style>
 
 <div class="dashboard-container">
     <h1>Employee Dashboard</h1>

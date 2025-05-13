@@ -18,7 +18,7 @@ namespace AgriEnergy.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
+      
         public string FarmerId { get; set; }
 
         public ApplicationUser Farmer { get; set; }

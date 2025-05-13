@@ -31,17 +31,22 @@
     </style>
 </head>
 <body>
-    <nav>
+  @*   <nav>
         <a href="/">Home</a>
         <a href="/Account/Login">Login</a>
         <a href="/Account/Register">Sign Up</a>
     </nav>
-
+ *@
     <div class="container">
-        @RenderBody()
-    </div>
-    @RenderSection("Scripts", required: false)
+        <div class="container">
+            @RenderBody()
+        </div>
 
+        <!-- Load jQuery and validation libraries -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+        @RenderSection("Scripts", required: false)
 </body>
 </html>
-

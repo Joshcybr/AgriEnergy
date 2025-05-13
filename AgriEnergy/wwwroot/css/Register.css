@@ -1,0 +1,206 @@
+﻿body {
+    background-color: #0d0d0d;
+    font-family: 'Segoe UI', sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding: 2rem 1rem;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 64px);
+    position: relative;
+}
+
+form {
+    background-color: #111;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
+    z-index: 2;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #00ff88;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input {
+    width: 100%;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: transparent;
+    padding: 0.9rem;
+    font-size: 1rem;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+    .input:focus {
+        outline: none;
+        border-color: #00ff88;
+        box-shadow: 0 0 5px #00ff88;
+    }
+
+.user-label {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    background-color: #111;
+    padding: 0 5px;
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.2s ease all;
+}
+
+.input:focus ~ .user-label,
+.input:valid ~ .user-label {
+    top: 0;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #00ff88;
+}
+
+select.input {
+    appearance: none;
+    padding-right: 1.5rem;
+    background-color: #222;
+    color: #fff;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: #00ff88;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #00cc6a;
+    }
+
+.btn-secondary {
+    background-color: #333;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    min-width: 100px;
+    transition: background 0.3s ease;
+}
+
+    .btn-secondary:hover {
+        background-color: #555;
+    }
+
+.text-danger {
+    font-size: 0.75rem;
+    color: #ff5c5c;
+    margin-top: 0.25rem;
+}
+
+.alert-success {
+    background-color: #1b5e20;
+    padding: 0.8rem;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #a5d6a7;
+}
+
+/* Spinner Styles */
+.spinner-container {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.spinner {
+    width: 70.4px;
+    height: 70.4px;
+    --clr: rgb(247, 197, 159);
+    --clr-alpha: rgb(247, 197, 159, .1);
+    animation: spinner 1.6s infinite ease;
+    transform-style: preserve-3d;
+}
+
+    .spinner > div {
+        background-color: var(--clr-alpha);
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        border: 3.5px solid var(--clr);
+    }
+
+    .spinner div:nth-of-type(1) {
+        transform: translateZ(-35.2px) rotateY(180deg);
+    }
+
+    .spinner div:nth-of-type(2) {
+        transform: rotateY(-270deg) translateX(50%);
+        transform-origin: top right;
+    }
+
+    .spinner div:nth-of-type(3) {
+        transform: rotateY(270deg) translateX(-50%);
+        transform-origin: center left;
+    }
+
+    .spinner div:nth-of-type(4) {
+        transform: rotateX(90deg) translateY(-50%);
+        transform-origin: top center;
+    }
+
+    .spinner div:nth-of-type(5) {
+        transform: rotateX(-90deg) translateY(50%);
+        transform-origin: bottom center;
+    }
+
+    .spinner div:nth-of-type(6) {
+        transform: translateZ(35.2px);
+    }
+
+@keyframes spinner {
+    0% {
+        transform: rotate(45deg) rotateX(-25deg) rotateY(25deg);
+    }
+
+    50% {
+        transform: rotate(45deg) rotateX(-385deg) rotateY(25deg);
+    }
+
+    100% {
+        transform: rotate(45deg) rotateX(-385deg) rotateY(385deg);
+    }
+}

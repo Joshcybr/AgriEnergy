@@ -1,4 +1,14 @@
-﻿@if (Model != null && Model.Any())
+﻿@model IEnumerable<AgriEnergy.Models.Product>
+
+<h2>@(ViewBag.UserName ?? "Farmer")'s Products</h2>
+
+<a href="@Url.Action("Create", "Product")" class="btn btn-primary">Create New Product</a>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No products available.</p>
+}
+else
 {
     <table class="table">
         <thead>
@@ -9,19 +19,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var product in Model)
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Price.ToString("C")</td>
-                    <td>@item.Description</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@product.Description</td>
                 </tr>
             }
         </tbody>
     </table>
 }
-else
-{
-    <p>No products available for this farmer.</p>
-}
-<a href="@Url.Action("Create", "Product")" class="btn btn-primary">Create New Product</a>

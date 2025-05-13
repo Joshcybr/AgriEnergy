@@ -1,27 +1,55 @@
-﻿@model AgriEnergy.Models.LoginViewModel
+﻿@model LoginViewModel
 
-<h2>Login</h2>
+@{
+    ViewData["Title"] = "Login";
+}
 
-<form asp-action="Login" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<link rel="stylesheet" href="~/css/login.css" />
 
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<div class="form-wrapper">
+    <div class="spinner-container" id="spinner">
+        <div class="spinner">
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
     </div>
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+    <form asp-action="Login" method="post" id="loginForm">
+        <h2>Login</h2>
 
-    <div>
-        <label asp-for="RememberMe"></label>
-        <input asp-for="RememberMe" type="checkbox" />
-    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <button type="submit">Login</button>
-</form>
+        <div class="input-group">
+            <input asp-for="Email" class="input" required autocomplete="off" />
+            <label class="user-label">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
 
+        <div class="input-group">
+            <input asp-for="Password" type="password" class="input" required />
+            <label class="user-label">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <input asp-for="RememberMe" type="checkbox" />
+            <label>Remember Me</label>
+        </div>
+
+        <div class="button-group">
+            <a href="~/Home/Index" class="btn-secondary">Cancel</a>
+            <button type="submit" class="btn-primary">Login</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const form = document.getElementById('loginForm');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', function () {
+            spinner.style.display = 'block';
+        });
+    </script>
+}

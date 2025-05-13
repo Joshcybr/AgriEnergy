@@ -1,58 +1,84 @@
 ﻿@model RegisterViewModel
 
-<h2>Register</h2>
+<link rel="stylesheet" href="~/css/register.css" />
 
-@if (ViewBag.SuccessMessage != null)
-{
-    <div class="alert alert-success">@ViewBag.SuccessMessage</div>
-}
-
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div>
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
+<div class="form-wrapper">
+    <div class="spinner-container" id="spinner">
+        <div class="spinner">
+            <div></div><div></div><div></div><div></div><div></div><div></div>
+        </div>
     </div>
 
-    <div>
-        <label asp-for="DateOfBirth"></label>
-        <input asp-for="DateOfBirth" type="date" class="form-control" />
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-    </div>
+    <form asp-action="Register" method="post" id="registerForm">
+        <h2>Register</h2>
 
-    <div>
-        <label asp-for="CellPhone"></label>
-        <input asp-for="CellPhone" class="form-control" />
-        <span asp-validation-for="CellPhone" class="text-danger"></span>
-    </div>
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert-success">@ViewBag.SuccessMessage</div>
+            <script>
+                setTimeout(() => {
+                    window.location.href = '/Account/Login';
+                }, 1500);
+            </script>
+        }
 
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+        <div class="input-group">
+            <input asp-for="FullName" class="input" required autocomplete="off" />
+            <label class="user-label">Full Name</label>
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
 
-    <div>
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control">
-            <option value="">-- Select Role --</option>
-            <option>Farmer</option>
-            <option>Employee</option>
-        </select>
-        <span asp-validation-for="Role" class="text-danger"></span>
-    </div>
+        <div class="input-group">
+            <input asp-for="DateOfBirth" type="date" class="input" required />
+            <label class="user-label">Date of Birth</label>
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Register</button>
-</form>
+        <div class="input-group">
+            <input asp-for="CellPhone" class="input" required autocomplete="off" />
+            <label class="user-label">Cell Phone</label>
+            <span asp-validation-for="CellPhone" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <input asp-for="Email" class="input" required autocomplete="off" />
+            <label class="user-label">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <input asp-for="Password" type="password" class="input" required />
+            <label class="user-label">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <select asp-for="Role" class="input" required>
+                <option disabled selected value="">-- Select Role --</option>
+                <option>Farmer</option>
+                <option>Employee</option>
+            </select>
+            <label class="user-label">Role</label>
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn-primary">Register</button>
+            <a href="~/Home/Index" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        const form = document.getElementById('registerForm');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', function () {
+            spinner.style.display = 'block';
+        });
+    </script>
 }
