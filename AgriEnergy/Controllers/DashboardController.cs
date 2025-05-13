@@ -21,6 +21,7 @@ namespace AgriEnergy.Controllers
 
         // Only users in the FARMER role can access this dashboard
         [Authorize(Roles = "FARMER")]
+        [HttpGet]
         public async Task<IActionResult> FarmerDashboard()
         {
             var user = await _userManager.GetUserAsync(User);

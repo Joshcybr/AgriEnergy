@@ -1,0 +1,31 @@
+﻿@model AgriEnergy.Models.Product
+
+@{
+    ViewBag.Title = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+@using (Html.BeginForm("Edit", "Product", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Price)
+        @Html.EditorFor(m => m.Price)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.EditorFor(m => m.Description)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-controller="DashBoard" asp-action="FarmerDashboard" class="btn btn-secondary">Cancel</a>
+
+}
