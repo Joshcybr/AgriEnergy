@@ -77,7 +77,54 @@
     display: flex;
     gap: 0.5rem;
 }
+button.btn, a.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
+/* Edit Button Styling (with a green color theme) */
+button.btn-warning, a.btn-warning {
+    background-color: #00cc6a; /* Green for Edit */
+    color: white;
+}
+
+button.btn-warning:hover, a.btn-warning:hover {
+    background-color: #00ff88; /* Lighter green on hover */
+    transform: scale(1.05);
+}
+
+/* Delete Button Styling (with a red color theme) */
+button.btn-danger, a.btn-danger {
+    background-color: #d9534f; /* Red for Delete */
+    color: white;
+}
+
+button.btn-danger:hover, a.btn-danger:hover {
+    background-color: #c9302c; /* Darker red on hover */
+    transform: scale(1.05);
+}
+
+/* Optional: Adding a disabled state for buttons */
+button:disabled, a:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Responsive Design: Ensuring the buttons stack on smaller screens */
+@media (max-width: 768px) {
+    button.btn, a.btn {
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+}
 .btn-edit,
 .btn-delete {
     padding: 0.4rem 0.8rem;

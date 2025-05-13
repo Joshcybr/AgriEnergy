@@ -72,6 +72,24 @@ button {
     margin-bottom: 1.5rem;
 }
 
+/* Smaller price input */
+.price-input {
+    width: 50%; /* Adjust width to make it smaller */
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fafafa;
+    transition: border-color 0.3s;
+}
+
+    .price-input:focus {
+        border-color: #00ff88;
+        outline: none;
+    }
+
 @media (max-width: 768px) {
     .form-group {
         padding: 1rem;
@@ -79,5 +97,10 @@ button {
 
     button {
         width: 100%;
+    }
+
+    /* Adjust price input width for mobile view */
+    .price-input {
+        width: 80%; /* Adjust width on mobile */
     }
 }

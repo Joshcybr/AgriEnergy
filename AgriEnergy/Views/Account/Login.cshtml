@@ -34,11 +34,11 @@
             <input asp-for="RememberMe" type="checkbox" />
             <label>Remember Me</label>
         </div>
-
         <div class="button-group">
-            <a href="~/Home/Index" class="btn-secondary">Cancel</a>
             <button type="submit" class="btn-primary">Login</button>
+            <a asp-controller="Home" asp-action="Index" class="btn-primary cancel-button">Cancel</a>
         </div>
+
     </form>
 </div>
 
