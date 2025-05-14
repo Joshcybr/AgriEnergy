@@ -66,5 +66,6 @@ static async Task SeedRolesAsync(IServiceProvider serviceProvider)
             await roleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
+
 }
 

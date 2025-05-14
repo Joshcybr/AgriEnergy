@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgriEnergy.Controllers
 {
@@ -37,8 +38,7 @@ namespace AgriEnergy.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Create([Bind("Name,Price,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Price,Description,Category,ProductionDate")] Product product)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
@@ -50,7 +50,7 @@ namespace AgriEnergy.Controllers
             // Set FarmerId manually
             product.FarmerId = userId;
 
-            // Remove Farmer/FarmerId from validation check
+            // Skip validation for these properties since they are set manually
             ModelState.Remove("Farmer");
             ModelState.Remove("FarmerId");
 
@@ -58,14 +58,19 @@ namespace AgriEnergy.Controllers
             {
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Product saved successfully.");
+                _logger.LogInformation("Product saved successfully for FarmerId: {FarmerId}", userId);
                 return RedirectToAction("FarmerDashboard", "Dashboard"); // Redirect to the FarmerDashboard
             }
 
-            // If validation fails, return to the create page
+            // Log first model error for debugging
+            var firstError = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            if (firstError != null)
+            {
+                _logger.LogWarning("Validation failed: " + firstError);
+            }
+
             return View(product);
         }
-
 
         // GET: Product/Index
         public async Task<IActionResult> FarmerDashboard()
@@ -73,10 +78,7 @@ namespace AgriEnergy.Controllers
             var products = await _context.Products.ToListAsync();  // Fetch all products
             return View(products);  // Return the view with the list of products
 
-        } // GET: Product/Edit/5
-
-
-        // GET: Product/Edit/5
+        }
         public IActionResult Edit(int id)
         {
             var product = _context.Products.Find(id);
@@ -130,7 +132,7 @@ namespace AgriEnergy.Controllers
         }
 
 
-        // DELETE: Product/Delete/5
+        // DELETE: Product/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -144,12 +146,50 @@ namespace AgriEnergy.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("FarmerDashboard", "Dashboard");  
+            return RedirectToAction("FarmerDashboard", "Dashboard");
         }
-                                                                     
+
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
         }
+        // Filter action
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Filter(DateTime? startDate, DateTime? endDate, string productType)
+        {
+            // Get distinct categories
+            var categories = await _context.Products
+                .Select(p => p.Category)
+                .Distinct()
+                .ToListAsync();
+
+            // Store the categories and filter values in ViewBag
+            ViewBag.Categories = new SelectList(categories);
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            ViewBag.SelectedCategory = productType;
+
+            // Build the query for products based on the filter
+            var productsQuery = _context.Products.Include(p => p.Farmer).AsQueryable();
+
+            if (startDate.HasValue)
+                productsQuery = productsQuery.Where(p => p.ProductionDate >= startDate.Value);
+
+            if (endDate.HasValue)
+                productsQuery = productsQuery.Where(p => p.ProductionDate <= endDate.Value);
+
+            if (!string.IsNullOrEmpty(productType))
+                productsQuery = productsQuery.Where(p => p.Category == productType);
+
+            // Fetch the filtered products
+            var filteredProducts = await productsQuery.ToListAsync();
+
+            // Pass the filtered products to the view via ViewBag
+            ViewBag.Products = filteredProducts;
+
+            return View("~/Views/Dashboard/EmployeeDashboard.cshtml");
+        }
     }
-}
+
+    }

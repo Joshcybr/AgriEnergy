@@ -33,6 +33,7 @@ namespace AgriEnergy.Migrations
                     FullName = table.Column<string>(type: "TEXT", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: false),
                     CellPhone = table.Column<string>(type: "TEXT", nullable: false),
+                    Region = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -168,6 +169,8 @@ namespace AgriEnergy.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Category = table.Column<string>(type: "TEXT", nullable: false),
+                    ProductionDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     FarmerId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

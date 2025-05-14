@@ -1,28 +1,154 @@
 ﻿@{
-    ViewData["Title"] = "Employee Dashboard";
-  
+    var categories = ViewBag.Categories as SelectList;
+    var startDate = ViewBag.StartDate as DateTime?;
+    var endDate = ViewBag.EndDate as DateTime?;
+    var selectedCategory = ViewBag.SelectedCategory as string;
+    var products = ViewBag.Products as List<AgriEnergy.Models.Product>;
 }
+@{
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Agri-Energy Connect</title>
+    <link rel="stylesheet" href="~/css/EmployeeDashboard.css" />
+</head>
+<body>
+    <!-- Header with logo and title -->
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🌱</span>
+            Agri-Energy Connect
+        </div>
+        <!-- Add New Farmer and Log Out buttons -->
+        <div class="header-actions">
+        <a href="@Url.Action("Create", "Farmers")" class="btn btn-primary">Add New Farmer</a>
+            @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Logout</button>
+            }
+        </div>
+    </header>
 
-<div class="dashboard-container">
-    <h1>Employee Dashboard</h1>
+    <main class="container">
+        <!-- Page Title and Content -->
+        <div class="hero">
+            <h1>Employee Dashboard</h1>
+            <p>Welcome to your control center! Monitor and manage agricultural products, connect with farmers, and track market trends.</p>
+        </div>
 
-    <div class="section">
-        <h2>Quick Access</h2>
-        <ul>
-            <li><a href="#">📈 View Reports</a></li>
-            <li><a href="#">👥 Manage Users</a></li>
-            <li><a href="#">📦 Inventory Overview</a></li>
-            <li><a href="#">🌾 Farm Summary</a></li>
-        </ul>
-    </div>
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="stat-card">
+                <div class="stat-number">@(ViewBag.TotalProducts ?? products?.Count ?? 0)</div>
+                <div class="stat-label">Active Products</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">@(ViewBag.TotalFarmers ?? ViewBag.FarmerCount ?? 0)</div>
+                <div class="stat-label">Registered Farmers</div>
+            </div>
+            @if (ViewBag.MonthlyRevenue != null)
+            {
+                <div class="stat-card">
+                    <div class="stat-number">R @(ViewBag.MonthlyRevenue?.ToString("N0") ?? "0")</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+            }
+            @if (products != null)
+            {
+                <div class="stat-card">
+                    <div class="stat-number">@(products.Count)</div>
+                    <div class="stat-label">Filtered Products</div>
+                </div>
+            }
+        </div>
 
-    <div class="section">
-        <h2>Helpful Resources</h2>
-        <ul>
-            <li><a href="https://quickref.me/cs" target="_blank">C# Quick Reference</a></li>
-            <li><a href="https://docs.microsoft.com/en-us/aspnet/core/" target="_blank">ASP.NET Core Docs</a></li>
-            <li><a href="https://learn.microsoft.com/en-us/ef/" target="_blank">Entity Framework Core Docs</a></li>
-        </ul>
-        <a class="btn btn-primary" asp-controller="Farmers" asp-action="Create">Add Farmer</a> // this must go to the employee dashboard 
-    </div>
-</div>
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3>Filter Products</h3>
+            <form asp-controller="Product" asp-action="Filter" method="get" class="filter-form">
+                <div class="form-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" class="form-control" value="@startDate?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" class="form-control" value="@endDate?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group">
+                    <label for="productType">Product Type:</label>
+                    <select id="productType" name="productType" class="form-control">
+                        <option value="">-- All Categories --</option>
+                        @foreach (var category in categories)
+                        {
+                            <option value="@category.Value" @@(category.Value= =selectedCategory ? "selected" : "" )>@category.Text</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Apply Filter</button>
+            </form>
+        </div>
+
+        <!-- Products List -->
+        <div class="table-container">
+            @if (selectedCategory != null)
+            {
+                <h3>
+                    Filtered Products: @(string.IsNullOrEmpty(selectedCategory) ? "All Categories" : selectedCategory)
+                    @if (startDate.HasValue || endDate.HasValue)
+                    {
+                        <span>
+                            (@(startDate?.ToString("MMM d, yyyy") ?? "Any date") - @(endDate?.ToString("MMM d, yyyy") ?? "Any date"))
+                        </span>
+                    }
+                </h3>
+            }
+            else
+            {
+                <h3>All Products</h3>
+            }
+
+            @if (products == null || !products.Any())
+            {
+                <p class="no-products">No products match the filter criteria.</p>
+            }
+            else
+            {
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Farmer</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Production Date</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in products)
+                        {
+                            <tr>
+                                <td>@(product.Farmer?.FullName ?? "Unknown")</td>
+                                <td>@product.Name</td>
+                                <td>@product.Category</td>
+                                <td class="product-price">R @product.Price.ToString("N2")</td>
+                                <td>@product.ProductionDate.ToString("yyyy-MM-dd")</td>
+                                <td>@product.Description</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <footer>
+            &copy; @DateTime.Now.Year Agri-Energy Connect | All Rights Reserved
+        </footer>
+    </main>
+</body>
+</html>

@@ -36,7 +36,8 @@ namespace AgriEnergy.Controllers
                     Email = model.Email,
                     FullName = model.FullName,
                     DateOfBirth = model.DateOfBirth,
-                    CellPhone = model.CellPhone
+                    CellPhone = model.CellPhone,
+                    Region = model.Region
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

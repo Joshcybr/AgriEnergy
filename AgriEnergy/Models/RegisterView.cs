@@ -27,4 +27,6 @@ public class RegisterViewModel
 
     [Required]
     public string Role { get; set; }
+
+    public string? Region { get; set; }
 }

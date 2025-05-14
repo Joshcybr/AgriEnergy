@@ -18,7 +18,15 @@ namespace AgriEnergy.Models
         [Required]
         public string Description { get; set; }
 
-      
+        [Required]
+        public string Category { get; set; }  
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime ProductionDate { get; set; } 
+
+
+
         public string FarmerId { get; set; }
 
         public ApplicationUser Farmer { get; set; }

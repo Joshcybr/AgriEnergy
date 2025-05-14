@@ -5,6 +5,10 @@ using AgriEnergy.Models;
 using AgriEnergy.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgriEnergy.Controllers
 {
@@ -19,7 +23,6 @@ namespace AgriEnergy.Controllers
             _context = context;
         }
 
-        // Only users in the FARMER role can access this dashboard
         [Authorize(Roles = "FARMER")]
         [HttpGet]
         public async Task<IActionResult> FarmerDashboard()
@@ -40,16 +43,25 @@ namespace AgriEnergy.Controllers
             return View(products);  // Pass the products to the view
         }
 
-
         // Only users in the EMPLOYEE role can access this dashboard
-        [Authorize(Roles = "EMPLOYEE")]
+        
         public async Task<IActionResult> EmployeeDashboard()
         {
-            var user = await _userManager.GetUserAsync(User);
-            ViewBag.UserName = user?.FullName ?? user?.UserName;
+            var products = await _context.Products
+                .Include(p => p.Farmer)
+                .ToListAsync();
 
-            return View();
+            // Get distinct categories for the filter dropdown
+            var categories = await _context.Products
+                .Select(p => p.Category)
+                .Where(c => !string.IsNullOrEmpty(c))
+                .Distinct()
+                .ToListAsync();
+
+            ViewBag.Categories = new SelectList(categories);
+
+            return View(products);
         }
+
     }
 }
-

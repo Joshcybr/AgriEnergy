@@ -6,6 +6,11 @@
     <div class="product-header">
         <h2>@(ViewBag.UserName ?? "Farmer")'s Products</h2>
         <a href="@Url.Action("Create", "Product")" class="btn-create">+ Create New Product</a>
+        @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger">Logout</button>
+        }
     </div>
 
     @if (Model == null || !Model.Any())
@@ -18,7 +23,9 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Category</th>
                     <th>Price</th>
+                    <th>Production Date</th>
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
@@ -28,7 +35,9 @@
                 {
                     <tr>
                         <td>@product.Name</td>
+                        <td>@product.Category</td>
                         <td>R @product.Price.ToString("N2")</td>
+                        <td>@product.ProductionDate.ToString("yyyy-MM-dd")</td>
                         <td>@product.Description</td>
                         <td>
                             <a href="@Url.Action("Edit", "Product", new { id = product.Id })" class="btn btn-warning">Edit</a>
@@ -45,4 +54,3 @@
         </table>
     }
 </div>
-

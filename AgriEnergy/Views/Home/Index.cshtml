@@ -1,7 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Agri-Energy";
+    Layout = null;
 }
-<link rel="stylesheet" href="~/css/landingPage.css" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/landingPage.css" />
+</head>
 <body>
     <header>
         <div class="logo">Agri-Energy Connect</div>
@@ -12,6 +21,7 @@
             <a href="/Account/Register">Sign Up</a>
         </nav>
     </header>
+
     <section class="features">
         <div class="feature">
             <img src="~/images/Green_tech.jpeg" alt="Green Tech" />
@@ -29,7 +39,6 @@
             <p>Contribute to a greener future with scalable energy solutions designed for agriculture.</p>
         </div>
     </section>
-
 
     <footer>
         &copy; 2025 Agri-Energy Connect. All rights reserved.

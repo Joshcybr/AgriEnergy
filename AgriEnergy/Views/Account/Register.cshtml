@@ -24,46 +24,71 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <!-- Full Name Input -->
         <div class="input-group">
             <input asp-for="FullName" class="input" required autocomplete="off" />
             <label class="user-label">Full Name</label>
             <span asp-validation-for="FullName" class="text-danger"></span>
         </div>
 
+        <!-- Date of Birth Input -->
         <div class="input-group">
             <input asp-for="DateOfBirth" type="date" class="input" required />
             <label class="user-label">Date of Birth</label>
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
 
+        <!-- Cell Phone Input -->
         <div class="input-group">
             <input asp-for="CellPhone" class="input" required autocomplete="off" />
             <label class="user-label">Cell Phone</label>
             <span asp-validation-for="CellPhone" class="text-danger"></span>
         </div>
 
+        <!-- Email Input -->
         <div class="input-group">
             <input asp-for="Email" class="input" required autocomplete="off" />
             <label class="user-label">Email</label>
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
+        <!-- Password Input -->
         <div class="input-group">
             <input asp-for="Password" type="password" class="input" required />
             <label class="user-label">Password</label>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
+        <!-- Role Dropdown -->
         <div class="input-group">
-            <select asp-for="Role" class="input" required>
+            <select asp-for="Role" class="input" required id="roleSelect">
                 <option disabled selected value="">-- Select Role --</option>
-                <option>Farmer</option>
-                <option>Employee</option>
+                <option value="Farmer">Farmer</option>
+                <option value="Employee">Employee</option>
             </select>
             <label class="user-label">Role</label>
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
 
+        <!-- Region Dropdown (Initially Hidden) -->
+        <div class="input-group" id="regionGroup" style="display:none;">
+            <select asp-for="Region" class="input" required>
+                <option value="">-- Select Region --</option>
+                <option value="Gauteng">Gauteng</option>
+                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                <option value="Western Cape">Western Cape</option>
+                <option value="Eastern Cape">Eastern Cape</option>
+                <option value="Limpopo">Limpopo</option>
+                <option value="Mpumalanga">Mpumalanga</option>
+                <option value="North West">North West</option>
+                <option value="Northern Cape">Northern Cape</option>
+                <option value="Free State">Free State</option>
+            </select>
+            <label class="user-label">Region</label>
+            <span asp-validation-for="Region" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
         <div class="button-group">
             <button type="submit" class="btn-primary">Register</button>
             <a href="~/Home/Index" class="btn-secondary">Cancel</a>
@@ -72,13 +97,31 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
     <script>
-        const form = document.getElementById('registerForm');
-        const spinner = document.getElementById('spinner');
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registerForm');
+            const spinner = document.getElementById('spinner');
+            const roleSelect = document.getElementById('roleSelect'); // Use correct ID for Role select dropdown
+            const regionGroup = document.getElementById('regionGroup');
 
-        form.addEventListener('submit', function () {
-            spinner.style.display = 'block';
+            // Display region dropdown when "Farmer" is selected
+            roleSelect.addEventListener('change', function () {
+                if (this.value === "Farmer") {
+                    regionGroup.style.display = 'block'; // Show region dropdown
+                } else {
+                    regionGroup.style.display = 'none'; // Hide region dropdown
+                }
+            });
+
+            // Optional: Trigger it on page load in case of browser auto-fill
+            if (roleSelect.value === "Farmer") {
+                regionGroup.style.display = 'block'; // Show region dropdown if already selected
+            }
+
+            // Spinner on form submit
+            form.addEventListener('submit', function () {
+                spinner.style.display = 'block';
+            });
         });
     </script>
 }
