@@ -99,8 +99,8 @@ button {
         width: 100%;
     }
 
-    /* Adjust price input width for mobile view */
+    
     .price-input {
-        width: 80%; /* Adjust width on mobile */
+        width: 80%; 
     }
 }

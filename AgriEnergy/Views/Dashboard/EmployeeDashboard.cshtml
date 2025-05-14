@@ -1,31 +1,35 @@
 ﻿@{
+    // Set the page title
+    ViewData["Title"] = "Employee Dashboard";
+
+    // Retrieve data passed from the controller via ViewBag
     var categories = ViewBag.Categories as SelectList;
     var startDate = ViewBag.StartDate as DateTime?;
     var endDate = ViewBag.EndDate as DateTime?;
     var selectedCategory = ViewBag.SelectedCategory as string;
     var products = ViewBag.Products as List<AgriEnergy.Models.Product>;
 }
-@{
-    Layout = "_Layout";
-}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page setup and meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Agri-Energy Connect</title>
+    <!-- Custom stylesheet for the dashboard -->
     <link rel="stylesheet" href="~/css/EmployeeDashboard.css" />
 </head>
 <body>
-    <!-- Header with logo and title -->
+    <!-- Top header with logo and action buttons -->
     <header>
         <div class="logo">
-            <span class="logo-icon">🌱</span>
-            Agri-Energy Connect
+            <span class="logo-icon"></span> Agri-Energy Connect
         </div>
-        <!-- Add New Farmer and Log Out buttons -->
         <div class="header-actions">
-        <a href="@Url.Action("Create", "Farmers")" class="btn btn-primary">Add New Farmer</a>
+            <!-- Button to add a new farmer -->
+            <a href="@Url.Action("Create", "Farmers")" class="btn btn-primary">Add New Farmer</a>
+            <!-- Logout form -->
             @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
             {
                 @Html.AntiForgeryToken()
@@ -35,39 +39,30 @@
     </header>
 
     <main class="container">
-        <!-- Page Title and Content -->
+        <!-- Welcome message section -->
         <div class="hero">
             <h1>Employee Dashboard</h1>
-            <p>Welcome to your control center! Monitor and manage agricultural products, connect with farmers, and track market trends.</p>
+            <p>Welcome , to your control center! Monitor and manage agricultural products, connect with farmers, and track market trends.</p>
         </div>
 
-        <!-- Stats Summary -->
+        <!-- Product statistics summary -->
         <div class="stats-summary">
             <div class="stat-card">
+                <!-- Total number of products -->
                 <div class="stat-number">@(ViewBag.TotalProducts ?? products?.Count ?? 0)</div>
                 <div class="stat-label">Active Products</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">@(ViewBag.TotalFarmers ?? ViewBag.FarmerCount ?? 0)</div>
-                <div class="stat-label">Registered Farmers</div>
-            </div>
-            @if (ViewBag.MonthlyRevenue != null)
-            {
-                <div class="stat-card">
-                    <div class="stat-number">R @(ViewBag.MonthlyRevenue?.ToString("N0") ?? "0")</div>
-                    <div class="stat-label">Monthly Revenue</div>
-                </div>
-            }
             @if (products != null)
             {
                 <div class="stat-card">
-                    <div class="stat-number">@(products.Count)</div>
+                    <!-- Number of products currently filtered -->
+                    <div class="stat-number">@products.Count</div>
                     <div class="stat-label">Filtered Products</div>
                 </div>
             }
         </div>
 
-        <!-- Filter Section -->
+        <!-- Filtering options for the product list -->
         <div class="filter-section">
             <h3>Filter Products</h3>
             <form asp-controller="Product" asp-action="Filter" method="get" class="filter-form">
@@ -85,7 +80,7 @@
                         <option value="">-- All Categories --</option>
                         @foreach (var category in categories)
                         {
-                            <option value="@category.Value" @@(category.Value= =selectedCategory ? "selected" : "" )>@category.Text</option>
+                            <option value="@category.Value" @@(category.Value == selectedCategory ? "selected" : "")>@category.Text</option>
                         }
                     </select>
                 </div>
@@ -93,30 +88,27 @@
             </form>
         </div>
 
-        <!-- Products List -->
+        <!-- Table displaying products -->
         <div class="table-container">
-            @if (selectedCategory != null)
-            {
-                <h3>Filtered Products: @(string.IsNullOrEmpty(selectedCategory) ? "All Categories" : selectedCategory) 
-                    @if (startDate.HasValue || endDate.HasValue)
-                    {
-                        <span>
-                            (@(startDate?.ToString("MMM d, yyyy") ?? "Any date") - @(endDate?.ToString("MMM d, yyyy") ?? "Any date"))
-                        </span>
-                    }
-                </h3>
-            }
-            else
-            {
-                <h3>All Products</h3>
-            }
+            <h3>
+                <!-- Title changes based on selected filter -->
+                @(selectedCategory != null ? "Filtered Products: " + selectedCategory : "All Products")
+                @if (startDate.HasValue || endDate.HasValue)
+                {
+                    <span>
+                        (@(startDate?.ToString("MMM d, yyyy") ?? "Any date") - @(endDate?.ToString("MMM d, yyyy") ?? "Any date"))
+                    </span>
+                }
+            </h3>
 
             @if (products == null || !products.Any())
             {
+                <!-- Message when no products match the filter -->
                 <p class="no-products">No products match the filter criteria.</p>
             }
             else
             {
+                <!-- Product list table -->
                 <table class="product-table">
                     <thead>
                         <tr>
@@ -145,6 +137,7 @@
             }
         </div>
 
+        <!-- Footer section -->
         <footer>
             &copy; @DateTime.Now.Year Agri-Energy Connect | All Rights Reserved
         </footer>

@@ -22,7 +22,7 @@ namespace AgriEnergy.Controllers
             _userManager = userManager;
             _context = context;
         }
-
+        // allows specifc user to only access infomartion 
         [Authorize(Roles = "FARMER")]
         [HttpGet]
         public async Task<IActionResult> FarmerDashboard()
@@ -43,7 +43,7 @@ namespace AgriEnergy.Controllers
             return View(products);  // Pass the products to the view
         }
 
-        // Only users in the EMPLOYEE role can access this dashboard
+     
         
         public async Task<IActionResult> EmployeeDashboard()
         {

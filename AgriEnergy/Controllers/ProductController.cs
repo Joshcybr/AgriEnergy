@@ -50,7 +50,6 @@ namespace AgriEnergy.Controllers
             // Set FarmerId manually
             product.FarmerId = userId;
 
-            // Skip validation for these properties since they are set manually
             ModelState.Remove("Farmer");
             ModelState.Remove("FarmerId");
 
@@ -89,7 +88,7 @@ namespace AgriEnergy.Controllers
             return View(product);
         }
 
-        // POST: Product/Edit/5
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAsync(int id, [Bind("Id,Name,Price,Description")] Product product)
@@ -180,7 +179,10 @@ namespace AgriEnergy.Controllers
                 productsQuery = productsQuery.Where(p => p.ProductionDate <= endDate.Value);
 
             if (!string.IsNullOrEmpty(productType))
-                productsQuery = productsQuery.Where(p => p.Category == productType);
+            {
+                var normalizedType = productType.Trim().ToLower();
+                productsQuery = productsQuery.Where(p => p.Category.ToLower().Trim() == normalizedType);
+            }
 
             // Fetch the filtered products
             var filteredProducts = await productsQuery.ToListAsync();

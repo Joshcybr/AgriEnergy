@@ -19,6 +19,7 @@ namespace AgriEnergy.Controllers
         {
             return View();
         }
+        //Create a farmwer
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddFarmerViewModel model)
@@ -39,7 +40,7 @@ namespace AgriEnergy.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "FARMER");
-                    TempData["SuccessMessage"] = "New farmer added successfully!";
+                    TempData["SuccessMessage"] = "New farmer added successfully!";  //Success messege
                     return RedirectToAction("EmployeeDashboard", "Dashboard");
                 }
 

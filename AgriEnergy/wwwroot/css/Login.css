@@ -26,11 +26,11 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Increased gap for more spacing between buttons */
+    gap: 15px; 
     margin-top: 20px;
 }
 
-/* Base button style for both buttons */
+
 .btn-primary {
     width: 100%;
     max-width: 200px;
@@ -43,7 +43,6 @@ form {
     text-decoration: none;
 }
 
-    /* Login button */
     .btn-primary.login-button {
         background-color: #00ff88;
         color: #000;
@@ -53,7 +52,7 @@ form {
             background-color: #00cc6a;
         }
 
-    /* Cancel button */
+
     .btn-primary.cancel-button {
         background-color: #444444;
         color: #fff;

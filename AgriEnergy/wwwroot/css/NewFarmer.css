@@ -218,7 +218,6 @@ input[type="password"] {
     letter-spacing: 0.2em;
 }
 
-/* Footer */
 footer {
     text-align: center;
     padding: 2rem;
@@ -228,7 +227,6 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .container {
         padding: 0 1rem;

@@ -57,8 +57,9 @@
             <input asp-for="Password" type="password" class="input" required />
             <label class="user-label">Password</label>
             <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-
+       
+       
+         </div>
         <!-- Role Dropdown -->
         <div class="input-group">
             <select asp-for="Role" class="input" required id="roleSelect">
@@ -70,10 +71,10 @@
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
 
-        <!-- Region Dropdown (Initially Hidden) -->
+        <!-- Region Dropdown only displays after farmer is selected-->
         <div class="input-group" id="regionGroup" style="display:none;">
             <select asp-for="Region" class="input" required>
-                <option value="">-- Select Region --</option>
+                <option value="">---</option>
                 <option value="Gauteng">Gauteng</option>
                 <option value="KwaZulu-Natal">KwaZulu-Natal</option>
                 <option value="Western Cape">Western Cape</option>
@@ -101,7 +102,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('registerForm');
             const spinner = document.getElementById('spinner');
-            const roleSelect = document.getElementById('roleSelect'); // Use correct ID for Role select dropdown
+            const roleSelect = document.getElementById('roleSelect'); 
             const regionGroup = document.getElementById('regionGroup');
 
             // Display region dropdown when "Farmer" is selected
@@ -113,9 +114,8 @@
                 }
             });
 
-            // Optional: Trigger it on page load in case of browser auto-fill
             if (roleSelect.value === "Farmer") {
-                regionGroup.style.display = 'block'; // Show region dropdown if already selected
+                regionGroup.style.display = 'block'; 
             }
 
             // Spinner on form submit
