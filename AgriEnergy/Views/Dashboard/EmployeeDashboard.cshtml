@@ -97,8 +97,7 @@
         <div class="table-container">
             @if (selectedCategory != null)
             {
-                <h3>
-                    Filtered Products: @(string.IsNullOrEmpty(selectedCategory) ? "All Categories" : selectedCategory)
+                <h3>Filtered Products: @(string.IsNullOrEmpty(selectedCategory) ? "All Categories" : selectedCategory) 
                     @if (startDate.HasValue || endDate.HasValue)
                     {
                         <span>
